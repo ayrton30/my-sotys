@@ -1,21 +1,52 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from "expo-status-bar";
+import React, { useState } from "react";
+import {
+  StyleSheet,
+  ScrollView,
+  Text,
+  View,
+  TextInput,
+  Button,
+  ViewComponent,
+} from "react-native";
 
 export default function App() {
+  const [search, onSearch] = useState();
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <>
+      <View style={styles.container}>
+        <Text style={{ fontSize: 50, marginBottom: "5%" }}>Hola, Coder!</Text>
+        <View style={styles.input}>
+          <TextInput
+            value={search}
+            placeholder="Buscar canción"
+            onChangeText={onSearch}
+            style={{ backgroundColor: "#f034", fontSize: 30 }}
+          />
+          <Button title="BUSCAR" />
+        </View>
+        <Text style={{ fontSize: 50, marginBottom: "5%" }}>{search}</Text>
+      </View>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: "column",
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: "20%",
+  },
+
+  input: {
+    flex: 1,
+    flexDirection: "row",
+    backgroundColor: "#fff",
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
   },
 });
