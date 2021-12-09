@@ -1,10 +1,18 @@
-import React from "react";
-import { StyleSheet, TouchableOpacity, Image, Text, View } from "react-native";
+import React, { useContext } from "react";
+import { StyleSheet, TouchableOpacity, Image, Text } from "react-native";
+import { TracksContext } from "../context/TracksContext";
 
 export const Track = ({ track }) => {
+  const { addTrack } = useContext(TracksContext);
+
+  const touchHandler = (track) => {
+    console.log(track.name);
+    addTrack(track);
+  };
+
   return (
     <TouchableOpacity
-      onPress={(e) => console.log(e.target)}
+      onPress={() => touchHandler(track)}
       style={styles.trackContainer}
       key={track.id}
     >
@@ -20,7 +28,7 @@ export const Track = ({ track }) => {
 
 const styles = StyleSheet.create({
   trackContainer: {
-    backgroundColor: "#f9c2ff",
+    backgroundColor: "#4FE591",
     padding: 20,
     marginVertical: 8,
     borderRadius: 20,
