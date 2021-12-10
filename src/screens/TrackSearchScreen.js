@@ -9,6 +9,7 @@ import {
   FlatList,
   Keyboard,
 } from "react-native";
+
 import { Track } from "../components/Track";
 import colors from "../const/colors";
 import { getAccessToken } from "../utils/getAccessToken";
@@ -68,6 +69,7 @@ export const TrackSearchScreen = () => {
         <TextInput
           value={search}
           placeholder="Buscar canción"
+          placeholderTextColor={colors.white}
           onChangeText={setSearch}
           style={styles.input}
         />
@@ -95,9 +97,7 @@ export const TrackSearchScreen = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 2,
     alignItems: "center",
-    justifyContent: "center",
     paddingTop: StatusBar.currentHeight,
     marginTop: 40,
   },
@@ -105,13 +105,13 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 50,
     marginBottom: "5%",
+    paddingHorizontal: 30,
     color: colors.white,
     textAlign: "center",
     fontFamily: "ReadexProBold",
   },
 
   inputContainer: {
-    flex: 1,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
@@ -145,7 +145,6 @@ const styles = StyleSheet.create({
   },
 
   trackSearchContainer: {
-    flex: 8,
     alignItems: "center",
   },
 });
