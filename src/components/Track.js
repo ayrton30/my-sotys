@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { StyleSheet, TouchableOpacity, Image, Text } from "react-native";
+import colors from "../const/colors";
 import { TracksContext } from "../context/TracksContext";
 
 export const Track = ({ track }) => {
@@ -28,7 +29,7 @@ export const Track = ({ track }) => {
 
 const styles = StyleSheet.create({
   trackContainer: {
-    backgroundColor: "#4FE591",
+    backgroundColor: colors.green,
     padding: 20,
     marginVertical: 8,
     borderRadius: 20,
@@ -39,14 +40,19 @@ const styles = StyleSheet.create({
   trackImage: {
     width: 250,
     height: 250,
+    borderRadius: 20,
   },
 
   trackName: {
+    fontFamily: "ReadexProBold",
+    color: colors.white,
     fontSize: 35,
     padding: 20,
   },
 
   trackArtist: {
+    fontFamily: "ReadexProRegular",
+    color: colors.black,
     fontSize: 35,
     padding: 10,
   },

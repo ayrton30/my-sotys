@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { FlatList } from "react-native";
 import { TracksContext } from "../context/TracksContext";
-import { Track } from "../Track/Track";
+import { Track } from "./Track";
 
 export const TrackSoty = () => {
   const { sotyTracks } = useContext(TracksContext);
