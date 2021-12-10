@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
-  StatusBar,
   Text,
   View,
   TextInput,
@@ -9,7 +8,8 @@ import {
   FlatList,
   Keyboard,
 } from "react-native";
-
+import { SafeAreaView } from "react-native-safe-area-context";
+import { useNavigation } from "@react-navigation/native";
 import { Track } from "../components/Track";
 import colors from "../const/colors";
 import { getAccessToken } from "../utils/getAccessToken";
@@ -21,6 +21,8 @@ export const TrackSearchScreen = () => {
   const [search, setSearch] = useState("");
   const [tracks, setTracks] = useState([]);
   const [token, setToken] = useState("");
+
+  const nav = useNavigation();
 
   useEffect(() => {
     async function fetchData() {
@@ -60,29 +62,36 @@ export const TrackSearchScreen = () => {
   };
 
   return (
-    <View>
-      <View style={styles.container}>
-        <Text style={styles.title}>Tús SOTYs del {actualYear}</Text>
-      </View>
-
-      <View style={styles.inputContainer}>
-        <TextInput
-          value={search}
-          placeholder="Buscar canción"
-          placeholderTextColor={colors.white}
-          onChangeText={setSearch}
-          style={styles.input}
-        />
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => handlerSearch(search)}
-        >
-          <Text style={styles.textButton}>Buscar</Text>
-        </TouchableOpacity>
-      </View>
-
-      {!!tracks && (
-        //Lista optimizada
+    <SafeAreaView style={styles.container}>
+      <View>
+        <View>
+          <Text style={styles.title}>Tús SOTYs del {actualYear}</Text>
+        </View>
+        <View style={styles.inputContainer}>
+          <TextInput
+            value={search}
+            placeholder="Buscar canción"
+            placeholderTextColor={colors.white}
+            onChangeText={setSearch}
+            style={styles.input}
+          />
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => handlerSearch(search)}
+          >
+            <Text style={styles.textButton}>Buscar</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={{ alignItems: "center" }}>
+          <TouchableOpacity
+            style={styles.navegationButton}
+            onPress={() => nav.navigate("List")}
+          >
+            <Text style={styles.textNavegation}>
+              Ir a la lista de canciones
+            </Text>
+          </TouchableOpacity>
+        </View>
         <View style={styles.trackSearchContainer}>
           <FlatList
             data={tracks}
@@ -90,16 +99,16 @@ export const TrackSearchScreen = () => {
             keyExtractor={(item) => item.id}
           />
         </View>
-      )}
-    </View>
+      </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+    backgroundColor: colors.black,
     alignItems: "center",
-    paddingTop: StatusBar.currentHeight,
-    marginTop: 40,
   },
 
   title: {
@@ -115,25 +124,24 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
+    marginBottom: 10,
   },
 
   input: {
     fontSize: 20,
-    height: 40,
-    margin: 12,
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: colors.white,
-    borderRadius: 5,
+    borderRadius: 10,
     padding: 10,
     width: "75%",
     color: colors.white,
     fontFamily: "ReadexProLight",
+    marginRight: "2%",
   },
 
   button: {
     alignItems: "center",
     backgroundColor: colors.white,
-    padding: 10,
     height: 40,
     borderRadius: 10,
   },
@@ -141,10 +149,27 @@ const styles = StyleSheet.create({
   textButton: {
     color: colors.black,
     fontFamily: "ReadexProBold",
-    fontSize: 15,
+    fontSize: 18,
+    padding: 10,
+  },
+
+  textNavegation: {
+    color: colors.white,
+    fontFamily: "ReadexProRegular",
+    fontSize: 18,
+    padding: 10,
+  },
+
+  navegationButton: {
+    alignItems: "center",
+    backgroundColor: colors.purple,
+    height: 40,
+    borderRadius: 10,
+    width: "100%",
   },
 
   trackSearchContainer: {
+    flex: 1,
     alignItems: "center",
   },
 });

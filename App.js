@@ -1,3 +1,5 @@
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { NavigationContainer } from "@react-navigation/native";
 import AppLoading from "expo-app-loading";
 import { useFonts } from "expo-font";
 import React from "react";
@@ -16,22 +18,20 @@ export default function App() {
     ReadexProBold: require("./assets/fonts/ReadexPro-Bold.ttf"),
   });
 
+  const Stack = createNativeStackNavigator();
+
   if (!loaded) return <AppLoading />;
 
   return (
-    <SafeAreaView style={styles.container}>
-      <TracksProvider>
-        {screenSwitch ? <TrackSearchScreen /> : <TrackListScreen />}
-      </TracksProvider>
-    </SafeAreaView>
+    <TracksProvider>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Home">
+          <Stack.Group screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="Search" component={TrackSearchScreen} />
+            <Stack.Screen name="List" component={TrackListScreen} />
+          </Stack.Group>
+        </Stack.Navigator>
+      </NavigationContainer>
+    </TracksProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.black,
-    alignItems: "center",
-    paddingTop: StatusBar.currentHeight,
-  },
-});

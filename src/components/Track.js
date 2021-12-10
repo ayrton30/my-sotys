@@ -18,7 +18,7 @@ export const Track = ({ track }) => {
       key={track.id}
     >
       <Image
-        source={{ uri: track.album.images[1].url }}
+        source={{ uri: track.album.images[0].url }}
         style={styles.trackImage}
       />
       <Text style={styles.trackName}>{track.name}</Text>
@@ -30,30 +30,36 @@ export const Track = ({ track }) => {
 const styles = StyleSheet.create({
   trackContainer: {
     backgroundColor: colors.green,
-    padding: 20,
-    marginVertical: 8,
-    borderRadius: 20,
-    width: 350,
+    padding: 15,
+    marginVertical: 10,
+    marginHorizontal: "4%",
+    borderRadius: 40,
     alignItems: "center",
+    shadowColor: colors.green,
+    shadowOffset: { width: 0, height: 3 },
+    shadowRadius: 6,
+    shadowOpacity: 0.6,
+    elevation: 5,
   },
 
   trackImage: {
-    width: 250,
-    height: 250,
+    width: 200,
+    height: 200,
     borderRadius: 20,
+    marginTop: "3%",
   },
 
   trackName: {
     fontFamily: "ReadexProBold",
     color: colors.white,
     fontSize: 35,
-    padding: 20,
+    marginTop: "5%",
   },
 
   trackArtist: {
-    fontFamily: "ReadexProRegular",
+    fontFamily: "ReadexProBold",
     color: colors.black,
-    fontSize: 35,
-    padding: 10,
+    fontSize: 30,
+    marginBottom: "3%",
   },
 });

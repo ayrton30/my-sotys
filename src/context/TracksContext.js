@@ -14,8 +14,19 @@ export const TracksProvider = ({ children }) => {
     }
   };
 
+  const removeTrack = (track) => {
+    setSotyTracks(sotyTracks.filter((fig) => fig.id !== track.id));
+  };
+
+  const trackPosition = (track) => {
+    const position = sotyTracks.findIndex((item) => item.id === track.id) + 1;
+    return position;
+  };
+
   return (
-    <TracksContext.Provider value={{ sotyTracks, addTrack }}>
+    <TracksContext.Provider
+      value={{ sotyTracks, addTrack, trackPosition, removeTrack }}
+    >
       {children}
     </TracksContext.Provider>
   );
