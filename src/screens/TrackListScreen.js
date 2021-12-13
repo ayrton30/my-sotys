@@ -21,14 +21,6 @@ export const TrackListScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View>
-        <View style={{ alignItems: "center" }}>
-          <TouchableOpacity
-            style={styles.navegationButton}
-            onPress={() => nav.goBack()}
-          >
-            <Text style={styles.textNavegation}>Volver</Text>
-          </TouchableOpacity>
-        </View>
         <Text style={styles.title}>Mi lista de canciones</Text>
         <FlatList
           data={sotyTracks}
@@ -45,12 +37,13 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.black,
     alignItems: "center",
+    marginBottom: "10%",
   },
 
   title: {
     fontSize: 50,
-    marginBottom: "5%",
-    paddingHorizontal: 30,
+    lineHeight: 50,
+    padding: 10,
     color: colors.white,
     textAlign: "center",
     fontFamily: "ReadexProBold",
@@ -89,19 +82,18 @@ const styles = StyleSheet.create({
     padding: 10,
   },
 
-  textNavegation: {
+  textNavigation: {
     color: colors.white,
     fontFamily: "ReadexProRegular",
     fontSize: 18,
     padding: 10,
   },
 
-  navegationButton: {
+  navigationButton: {
     alignItems: "center",
     backgroundColor: colors.green,
     height: 40,
     borderRadius: 10,
-    width: "100%",
   },
 
   trackSearchContainer: {

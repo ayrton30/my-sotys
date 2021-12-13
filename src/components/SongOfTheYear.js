@@ -1,12 +1,5 @@
 import React, { useContext } from "react";
-import {
-  StyleSheet,
-  View,
-  Image,
-  Text,
-  Button,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
 import colors from "../const/colors";
 import { TracksContext } from "../context/TracksContext";
 
@@ -21,16 +14,20 @@ export const SongOfTheYear = ({ track }) => {
       >
         <Text style={styles.textBorrar}>X</Text>
       </TouchableOpacity>
-      <Text style={styles.trackPosition}>{trackPosition(track)}</Text>
 
-      <View style={styles.columnContainer}>
+      <View style={styles.infoContainer}>
+        <Text style={styles.trackPosition}>{trackPosition(track)}</Text>
         <Image
           source={{ uri: track.album.images[0].url }}
           style={styles.trackImage}
         />
         <View>
-          <Text style={styles.trackName}>{track.name}</Text>
-          <Text style={styles.trackArtist}>{track.artists[0].name}</Text>
+          <Text numberOfLines={5} style={styles.trackName}>
+            {track.name}
+          </Text>
+          <Text numberOfLines={3} style={styles.trackArtist}>
+            {track.artists[0].name}
+          </Text>
         </View>
       </View>
     </View>
@@ -38,45 +35,48 @@ export const SongOfTheYear = ({ track }) => {
 };
 
 const styles = StyleSheet.create({
-  columnContainer: {
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "space-around",
-    width: "100%",
-  },
-
   trackContainer: {
     backgroundColor: colors.purple,
     padding: 15,
     marginVertical: 10,
     marginHorizontal: "4%",
     borderRadius: 40,
+  },
+
+  infoContainer: {
+    flexDirection: "row",
     alignItems: "center",
+    justifyContent: "flex-start",
+    alignContent: "flex-start",
   },
 
   trackPosition: {
-    fontSize: 50,
+    fontSize: 60,
     fontFamily: "ReadexProBold",
     color: colors.white,
+    marginRight: "5%",
   },
 
   trackImage: {
     width: 100,
     height: 100,
     borderRadius: 20,
+    marginRight: "3%",
   },
 
   trackName: {
     fontFamily: "ReadexProBold",
     color: colors.white,
-    fontSize: 15,
+    fontSize: 20,
     marginTop: "5%",
+    flexWrap: "wrap",
+    marginRight: "40%",
   },
 
   trackArtist: {
     fontFamily: "ReadexProBold",
     color: colors.black,
-    fontSize: 15,
+    fontSize: 17,
     marginBottom: "3%",
   },
 
@@ -89,6 +89,7 @@ const styles = StyleSheet.create({
     shadowRadius: 6,
     shadowOpacity: 0.6,
     elevation: 5,
+    marginBottom: "3%",
   },
 
   textBorrar: {

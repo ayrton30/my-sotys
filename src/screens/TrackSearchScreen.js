@@ -82,16 +82,6 @@ export const TrackSearchScreen = () => {
             <Text style={styles.textButton}>Buscar</Text>
           </TouchableOpacity>
         </View>
-        <View style={{ alignItems: "center" }}>
-          <TouchableOpacity
-            style={styles.navegationButton}
-            onPress={() => nav.navigate("List")}
-          >
-            <Text style={styles.textNavegation}>
-              Ir a la lista de canciones
-            </Text>
-          </TouchableOpacity>
-        </View>
         <View style={styles.trackSearchContainer}>
           <FlatList
             data={tracks}
@@ -109,12 +99,14 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.black,
     alignItems: "center",
+    marginBottom: "10%",
   },
 
   title: {
     fontSize: 50,
+    lineHeight: 50,
+    padding: 10,
     marginBottom: "5%",
-    paddingHorizontal: 30,
     color: colors.white,
     textAlign: "center",
     fontFamily: "ReadexProBold",
