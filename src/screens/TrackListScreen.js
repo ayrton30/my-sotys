@@ -1,22 +1,21 @@
-import React, { useContext } from "react";
-import {
-  StyleSheet,
-  FlatList,
-  Text,
-  View,
-  TouchableOpacity,
-} from "react-native";
+import React from "react";
+import { StyleSheet, FlatList, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Track } from "../components/Track";
 import colors from "../const/colors";
-import { TracksContext } from "../context/TracksContext";
-import { useNavigation } from "@react-navigation/native";
+
 import { SongOfTheYear } from "../components/SongOfTheYear";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  moveDownTrack,
+  moveUpTrack,
+  removeTrack,
+} from "../store/actions/TrackAction";
+import { getPositionTrack } from "../utils/getPositionTrack";
 
 export const TrackListScreen = () => {
-  const { sotyTracks } = useContext(TracksContext);
-
-  const nav = useNavigation();
+  //redux
+  const sotyTracks = useSelector((state) => state.sotyTracks);
+  const dispatch = useDispatch();
 
   return (
     <SafeAreaView style={styles.container}>
@@ -24,7 +23,15 @@ export const TrackListScreen = () => {
         <Text style={styles.title}>Mi lista de canciones</Text>
         <FlatList
           data={sotyTracks}
-          renderItem={(item) => <SongOfTheYear track={item.item} />}
+          renderItem={(item) => (
+            <SongOfTheYear
+              track={item.item}
+              position={getPositionTrack(sotyTracks, item.item)}
+              deleteTrack={() => dispatch(removeTrack(item.item))}
+              moveUpTrack={() => dispatch(moveUpTrack(item.item))}
+              moveDownTrack={() => dispatch(moveDownTrack(item.item))}
+            />
+          )}
           keyExtractor={(item) => item.id}
         />
       </View>
@@ -37,7 +44,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.black,
     alignItems: "center",
-    marginBottom: "10%",
   },
 
   title: {

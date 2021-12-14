@@ -1,33 +1,48 @@
-import React, { useContext } from "react";
+import React from "react";
 import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
 import colors from "../const/colors";
-import { TracksContext } from "../context/TracksContext";
 
-export const SongOfTheYear = ({ track }) => {
-  const { trackPosition, removeTrack } = useContext(TracksContext);
-
+export const SongOfTheYear = ({
+  track,
+  position,
+  deleteTrack,
+  moveUpTrack,
+  moveDownTrack,
+}) => {
   return (
-    <View style={styles.trackContainer} key={track.id}>
-      <TouchableOpacity
-        style={styles.borrarButton}
-        onPress={() => removeTrack(track)}
-      >
-        <Text style={styles.textBorrar}>X</Text>
-      </TouchableOpacity>
+    <View style={{ alignItems: "center" }}>
+      <View style={styles.trackContainer} key={track.id}>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "center",
+          }}
+        >
+          <TouchableOpacity style={styles.actionButton} onPress={moveUpTrack}>
+            <Text style={styles.textBorrar}>UP</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.actionButton} onPress={moveDownTrack}>
+            <Text style={styles.textBorrar}>DOWN</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.actionButton} onPress={deleteTrack}>
+            <Text style={styles.textBorrar}>X</Text>
+          </TouchableOpacity>
+        </View>
 
-      <View style={styles.infoContainer}>
-        <Text style={styles.trackPosition}>{trackPosition(track)}</Text>
-        <Image
-          source={{ uri: track.album.images[0].url }}
-          style={styles.trackImage}
-        />
-        <View>
-          <Text numberOfLines={5} style={styles.trackName}>
-            {track.name}
-          </Text>
-          <Text numberOfLines={3} style={styles.trackArtist}>
-            {track.artists[0].name}
-          </Text>
+        <View style={styles.infoContainer}>
+          <Text style={styles.trackPosition}>{position}</Text>
+          <Image
+            source={{ uri: track.album.images[0].url }}
+            style={styles.trackImage}
+          />
+          <View>
+            <Text numberOfLines={5} style={styles.trackName}>
+              {track.name}
+            </Text>
+            <Text numberOfLines={3} style={styles.trackArtist}>
+              {track.artists[0].name}
+            </Text>
+          </View>
         </View>
       </View>
     </View>
@@ -37,10 +52,11 @@ export const SongOfTheYear = ({ track }) => {
 const styles = StyleSheet.create({
   trackContainer: {
     backgroundColor: colors.purple,
-    padding: 15,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
     marginVertical: 10,
-    marginHorizontal: "4%",
     borderRadius: 40,
+    width: "90%",
   },
 
   infoContainer: {
@@ -48,6 +64,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
     alignContent: "flex-start",
+
+    paddingTop: "5%",
   },
 
   trackPosition: {
@@ -68,7 +86,6 @@ const styles = StyleSheet.create({
     fontFamily: "ReadexProBold",
     color: colors.white,
     fontSize: 20,
-    marginTop: "5%",
     flexWrap: "wrap",
     marginRight: "40%",
   },
@@ -80,7 +97,7 @@ const styles = StyleSheet.create({
     marginBottom: "3%",
   },
 
-  borrarButton: {
+  actionButton: {
     backgroundColor: colors.black,
     padding: 15,
     borderRadius: 20,
@@ -89,7 +106,7 @@ const styles = StyleSheet.create({
     shadowRadius: 6,
     shadowOpacity: 0.6,
     elevation: 5,
-    marginBottom: "3%",
+    marginHorizontal: "1%",
   },
 
   textBorrar: {

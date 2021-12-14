@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
   StyleSheet,
   Text,
@@ -9,11 +9,12 @@ import {
   Keyboard,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useNavigation } from "@react-navigation/native";
 import { Track } from "../components/Track";
 import colors from "../const/colors";
 import { getAccessToken } from "../utils/getAccessToken";
 import { getTracks } from "../utils/getTracks";
+import { useDispatch } from "react-redux";
+import { addTrack } from "../store/actions/TrackAction";
 
 export const TrackSearchScreen = () => {
   const actualYear = new Date().getFullYear();
@@ -22,7 +23,8 @@ export const TrackSearchScreen = () => {
   const [tracks, setTracks] = useState([]);
   const [token, setToken] = useState("");
 
-  const nav = useNavigation();
+  //redux
+  const dispatch = useDispatch();
 
   useEffect(() => {
     async function fetchData() {
@@ -82,13 +84,17 @@ export const TrackSearchScreen = () => {
             <Text style={styles.textButton}>Buscar</Text>
           </TouchableOpacity>
         </View>
-        <View style={styles.trackSearchContainer}>
-          <FlatList
-            data={tracks}
-            renderItem={(item) => <Track track={item.item} />}
-            keyExtractor={(item) => item.id}
-          />
-        </View>
+
+        <FlatList
+          data={tracks}
+          renderItem={(item) => (
+            <Track
+              track={item.item}
+              onPress={() => dispatch(addTrack(item.item))}
+            />
+          )}
+          keyExtractor={(item) => item.id}
+        />
       </View>
     </SafeAreaView>
   );
@@ -99,7 +105,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.black,
     alignItems: "center",
-    marginBottom: "10%",
   },
 
   title: {
@@ -150,14 +155,6 @@ const styles = StyleSheet.create({
     fontFamily: "ReadexProRegular",
     fontSize: 18,
     padding: 10,
-  },
-
-  navegationButton: {
-    alignItems: "center",
-    backgroundColor: colors.purple,
-    height: 40,
-    borderRadius: 10,
-    width: "100%",
   },
 
   trackSearchContainer: {
