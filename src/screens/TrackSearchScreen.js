@@ -15,6 +15,8 @@ import { getAccessToken } from "../utils/getAccessToken";
 import { getTracks } from "../utils/getTracks";
 import { useDispatch } from "react-redux";
 import { addTrack } from "../store/actions/TrackAction";
+import { collection, getDocs } from "firebase/firestore/lite";
+import { db } from "../firebase/config";
 
 export const TrackSearchScreen = () => {
   const actualYear = new Date().getFullYear();
@@ -28,10 +30,17 @@ export const TrackSearchScreen = () => {
 
   useEffect(() => {
     async function fetchData() {
-      await getAccessToken()
+      //consumiendo de base de datos firebase
+      const idInfoRef = collection(db, "info");
+      const docs = await getDocs(idInfoRef);
+
+      //objeto con la informacion spotify id y secret
+      //para uso de la API
+      const spotifyData = docs.docs[0].data();
+
+      await getAccessToken(spotifyData)
         .then((response) => response.json())
         .then((data) => {
-          //console.log("Success:", data);
           setToken(data.access_token);
         })
         .catch((error) => {
