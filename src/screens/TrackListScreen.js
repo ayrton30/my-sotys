@@ -11,6 +11,7 @@ import {
   removeTrack,
 } from "../store/actions/TrackAction";
 import { getPositionTrack } from "../utils/getPositionTrack";
+import { StatusBar } from "expo-status-bar";
 
 export const TrackListScreen = () => {
   //redux
@@ -34,6 +35,7 @@ export const TrackListScreen = () => {
           )}
           keyExtractor={(item) => item.id}
         />
+        <StatusBar style="light" />
       </View>
     </SafeAreaView>
   );

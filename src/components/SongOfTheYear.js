@@ -1,6 +1,9 @@
 import React from "react";
 import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
+import { AntDesign, Feather } from "@expo/vector-icons";
 import colors from "../const/colors";
+import { useSelector } from "react-redux";
+import { getPositionTrack } from "../utils/getPositionTrack";
 
 export const SongOfTheYear = ({
   track,
@@ -9,6 +12,8 @@ export const SongOfTheYear = ({
   moveUpTrack,
   moveDownTrack,
 }) => {
+  const tracks = useSelector((state) => state.sotyTracks);
+
   return (
     <View style={{ alignItems: "center" }}>
       <View style={styles.trackContainer} key={track.id}>
@@ -18,14 +23,22 @@ export const SongOfTheYear = ({
             justifyContent: "center",
           }}
         >
-          <TouchableOpacity style={styles.actionButton} onPress={moveUpTrack}>
-            <Text style={styles.textBorrar}>UP</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.actionButton} onPress={moveDownTrack}>
-            <Text style={styles.textBorrar}>DOWN</Text>
-          </TouchableOpacity>
+          {getPositionTrack(tracks, track) != 1 && (
+            <TouchableOpacity style={styles.actionButton} onPress={moveUpTrack}>
+              <AntDesign name="upcircleo" size={24} color={colors.white} />
+            </TouchableOpacity>
+          )}
+          {getPositionTrack(tracks, track) != tracks.length && (
+            <TouchableOpacity
+              style={styles.actionButton}
+              onPress={moveDownTrack}
+            >
+              <AntDesign name="downcircleo" size={24} color={colors.white} />
+            </TouchableOpacity>
+          )}
+
           <TouchableOpacity style={styles.actionButton} onPress={deleteTrack}>
-            <Text style={styles.textBorrar}>X</Text>
+            <Feather name="trash" size={24} color={colors.white} />
           </TouchableOpacity>
         </View>
 
@@ -99,19 +112,13 @@ const styles = StyleSheet.create({
 
   actionButton: {
     backgroundColor: colors.black,
-    padding: 15,
-    borderRadius: 20,
+    padding: 10,
+    borderRadius: 100,
     shadowColor: colors.black,
     shadowOffset: { width: 0, height: 3 },
     shadowRadius: 6,
     shadowOpacity: 0.6,
     elevation: 5,
     marginHorizontal: "1%",
-  },
-
-  textBorrar: {
-    fontFamily: "ReadexProBold",
-    color: colors.white,
-    fontSize: 15,
   },
 });

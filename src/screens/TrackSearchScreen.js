@@ -7,16 +7,18 @@ import {
   TouchableOpacity,
   FlatList,
   Keyboard,
+  Modal,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Track } from "../components/Track";
 import colors from "../const/colors";
 import { getAccessToken } from "../utils/getAccessToken";
 import { getTracks } from "../utils/getTracks";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addTrack } from "../store/actions/TrackAction";
 import { collection, getDocs } from "firebase/firestore/lite";
 import { db } from "../firebase/config";
+import { Feather, Ionicons } from "@expo/vector-icons";
 
 export const TrackSearchScreen = () => {
   const actualYear = new Date().getFullYear();
@@ -24,9 +26,18 @@ export const TrackSearchScreen = () => {
   const [search, setSearch] = useState("");
   const [tracks, setTracks] = useState([]);
   const [token, setToken] = useState("");
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const showModal = () => {
+    setModalVisible(true);
+    setTimeout(() => {
+      setModalVisible(false);
+    }, 800);
+  };
 
   //redux
   const dispatch = useDispatch();
+  const sotyTracks = useSelector((state) => state.sotyTracks);
 
   useEffect(() => {
     async function fetchData() {
@@ -72,6 +83,17 @@ export const TrackSearchScreen = () => {
     search && fetchData();
   };
 
+  const handlerPress = (track) => {
+    dispatch(addTrack(track));
+    if (!sotyTracks.some((fig) => fig.id === track.id)) {
+      showModal();
+    }
+  };
+
+  const handlerPopular = () => {
+    console.log("canciones populares");
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View>
@@ -93,18 +115,48 @@ export const TrackSearchScreen = () => {
             <Text style={styles.textButton}>Buscar</Text>
           </TouchableOpacity>
         </View>
+        <TouchableOpacity style={styles.button} onPress={handlerPopular}>
+          <Ionicons name="ios-location-sharp" size={24} color={colors.black} />
+          <Text style={styles.textButton}>Canciones populares</Text>
+        </TouchableOpacity>
 
         <FlatList
           data={tracks}
           renderItem={(item) => (
-            <Track
-              track={item.item}
-              onPress={() => dispatch(addTrack(item.item))}
-            />
+            <Track track={item.item} onPress={() => handlerPress(item.item)} />
           )}
           keyExtractor={(item) => item.id}
         />
       </View>
+      <Modal
+        animationType="fade"
+        transparent
+        visible={modalVisible}
+        transparent={true}
+      >
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            backgroundColor: colors.purple,
+            justifyContent: "center",
+            padding: 50,
+            borderRadius: 50,
+          }}
+        >
+          <Feather name="check-circle" size={20} color={colors.white} />
+          <Text
+            style={{
+              fontFamily: "ReadexProRegular",
+              fontSize: 16,
+              color: colors.white,
+              marginHorizontal: 10,
+            }}
+          >
+            Añadido a la lista de canciones favoritas!
+          </Text>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 };
@@ -146,7 +198,9 @@ const styles = StyleSheet.create({
   },
 
   button: {
+    flexDirection: "row",
     alignItems: "center",
+    justifyContent: "center",
     backgroundColor: colors.white,
     height: 40,
     borderRadius: 10,
