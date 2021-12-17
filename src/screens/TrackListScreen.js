@@ -21,7 +21,7 @@ export const TrackListScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View>
-        <Text style={styles.title}>Mi lista de canciones</Text>
+        <Text style={styles.title}>Mis SOTYs</Text>
         <FlatList
           data={sotyTracks}
           renderItem={(item) => (
@@ -46,6 +46,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.black,
     alignItems: "center",
+    marginBottom: "11%",
   },
 
   title: {

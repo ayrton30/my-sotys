@@ -66,15 +66,10 @@ export const TrackSearchScreen = () => {
     Keyboard.dismiss();
 
     async function fetchData() {
-      await getTracks(token, search)
+      await getTracks(token, search, actualYear)
         .then((response) => response.json())
         .then((data) => {
-          //solo muestro las canciones lanzados en el año actual
-          setTracks(
-            data.tracks.items.filter(
-              (item) => item.album.release_date.slice(0, 4) == actualYear
-            )
-          );
+          setTracks(data.tracks.items);
         })
         .catch((error) => {
           console.error("Error:", error);
@@ -85,9 +80,9 @@ export const TrackSearchScreen = () => {
 
   const handlerPress = (track) => {
     dispatch(addTrack(track));
-    if (!sotyTracks.some((fig) => fig.id === track.id)) {
+    /*if (!sotyTracks.some((fig) => fig.id === track.id)) {
       showModal();
-    }
+    }*/
   };
 
   const handlerPopular = () => {
@@ -98,7 +93,7 @@ export const TrackSearchScreen = () => {
     <SafeAreaView style={styles.container}>
       <View>
         <View>
-          <Text style={styles.title}>Tús SOTYs del {actualYear}</Text>
+          <Text style={styles.title}>Mis SOTYs del {actualYear}</Text>
         </View>
         <View style={styles.inputContainer}>
           <TextInput
@@ -166,6 +161,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.black,
     alignItems: "center",
+    marginBottom: "11%",
   },
 
   title: {

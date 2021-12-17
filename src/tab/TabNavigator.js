@@ -53,6 +53,7 @@ const styles = StyleSheet.create({
   tabContainer: {
     backgroundColor: colors.black,
     position: "absolute",
+    height: "9%",
   },
 
   tabText: {

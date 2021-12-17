@@ -4,7 +4,8 @@ import { useFonts } from "expo-font";
 import React from "react";
 import { TabNavigator } from "./src/tab/TabNavigator";
 import { Provider } from "react-redux";
-import store from "./src/store";
+import { store, persistor } from "./src/store";
+import { PersistGate } from "redux-persist/integration/react";
 
 export default function App() {
   const [loaded] = useFonts({
@@ -17,9 +18,11 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      <NavigationContainer>
-        <TabNavigator />
-      </NavigationContainer>
+      <PersistGate loading={<AppLoading />} persistor={persistor}>
+        <NavigationContainer>
+          <TabNavigator />
+        </NavigationContainer>
+      </PersistGate>
     </Provider>
   );
 }
