@@ -80,9 +80,9 @@ export const TrackSearchScreen = () => {
 
   const handlerPress = (track) => {
     dispatch(addTrack(track));
-    /*if (!sotyTracks.some((fig) => fig.id === track.id)) {
+    if (!sotyTracks.some((fig) => fig.id === track.id)) {
       showModal();
-    }*/
+    }
   };
 
   const handlerPopular = () => {
