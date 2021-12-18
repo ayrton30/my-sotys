@@ -2,18 +2,15 @@ import React from "react";
 import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
 import { AntDesign, Feather } from "@expo/vector-icons";
 import colors from "../const/colors";
-import { useSelector } from "react-redux";
-import { getPositionTrack } from "../utils/getPositionTrack";
 
 export const SongOfTheYear = ({
   track,
   position,
+  length,
   deleteTrack,
   moveUpTrack,
   moveDownTrack,
 }) => {
-  const tracks = useSelector((state) => state.sotyTracks);
-
   return (
     <View style={{ alignItems: "center" }}>
       <View style={styles.trackContainer} key={track.id}>
@@ -23,12 +20,12 @@ export const SongOfTheYear = ({
             justifyContent: "center",
           }}
         >
-          {getPositionTrack(tracks, track) != 1 && (
+          {position != 1 && (
             <TouchableOpacity style={styles.actionButton} onPress={moveUpTrack}>
               <AntDesign name="upcircleo" size={24} color={colors.white} />
             </TouchableOpacity>
           )}
-          {getPositionTrack(tracks, track) != tracks.length && (
+          {position != length && (
             <TouchableOpacity
               style={styles.actionButton}
               onPress={moveDownTrack}

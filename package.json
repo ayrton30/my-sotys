@@ -27,7 +27,10 @@
     "react-native-web": "0.17.1",
     "react-redux": "^7.2.6",
     "redux": "^4.1.2",
-    "redux-persist": "^6.0.0"
+    "redux-persist": "^6.0.0",
+    "expo-location": "~13.0.4",
+    "react-native-view-shot": "3.1.2",
+    "expo-sharing": "~10.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"

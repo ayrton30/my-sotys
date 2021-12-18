@@ -1,8 +1,14 @@
 import React from "react";
-import { StyleSheet, FlatList, Text, View } from "react-native";
+import {
+  StyleSheet,
+  FlatList,
+  Text,
+  View,
+  TouchableOpacity,
+  Share,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import colors from "../const/colors";
-
 import { SongOfTheYear } from "../components/SongOfTheYear";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -12,22 +18,52 @@ import {
 } from "../store/actions/TrackAction";
 import { getPositionTrack } from "../utils/getPositionTrack";
 import { StatusBar } from "expo-status-bar";
+import { Ionicons } from "@expo/vector-icons";
 
 export const TrackListScreen = () => {
   //redux
   const sotyTracks = useSelector((state) => state.sotyTracks);
   const dispatch = useDispatch();
 
+  const handlerSaveImage = () => {
+    let m = "Mi lista de SOTYs\n";
+    sotyTracks.forEach((element) => {
+      m =
+        m +
+        `${getPositionTrack(sotyTracks, element)}- ${element.name} Artista: ${
+          element.artists[0].name
+        }\n`;
+    });
+
+    const onShare = async () => {
+      try {
+        const result = await Share.share({
+          message: m,
+        });
+      } catch (error) {
+        alert(error.message);
+      }
+    };
+
+    onShare();
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View>
         <Text style={styles.title}>Mis SOTYs</Text>
+        <TouchableOpacity style={styles.button} onPress={handlerSaveImage}>
+          <Ionicons name="ios-share" size={24} color={colors.black} />
+          <Text style={styles.textButton}>Compartir mi lista</Text>
+        </TouchableOpacity>
+
         <FlatList
           data={sotyTracks}
           renderItem={(item) => (
             <SongOfTheYear
               track={item.item}
               position={getPositionTrack(sotyTracks, item.item)}
+              length={sotyTracks.length}
               deleteTrack={() => dispatch(removeTrack(item.item))}
               moveUpTrack={() => dispatch(moveUpTrack(item.item))}
               moveDownTrack={() => dispatch(moveDownTrack(item.item))}
@@ -35,6 +71,7 @@ export const TrackListScreen = () => {
           )}
           keyExtractor={(item) => item.id}
         />
+
         <StatusBar style="light" />
       </View>
     </SafeAreaView>
@@ -78,7 +115,9 @@ const styles = StyleSheet.create({
   },
 
   button: {
+    flexDirection: "row",
     alignItems: "center",
+    justifyContent: "center",
     backgroundColor: colors.white,
     height: 40,
     borderRadius: 10,
