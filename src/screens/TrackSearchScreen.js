@@ -81,6 +81,7 @@ export const TrackSearchScreen = () => {
       }
       let location = await Location.getCurrentPositionAsync({});
       setLocation(location);
+      console.log(location);
     })();
   }, []);
 
@@ -115,6 +116,7 @@ export const TrackSearchScreen = () => {
     if (errorMsg) {
       console.log(errorMsg);
     } else if (location) {
+      console.log(location);
       //Google Geocoding API
       (async () => {
         //consumiendo de base de datos firebase
@@ -136,6 +138,7 @@ export const TrackSearchScreen = () => {
               await getTopCountryTracks(token, responseCountry)
                 .then((response) => response.json())
                 .then((data) => {
+                  console.log(data);
                   const map = data.items.map((element) => element.track);
 
                   //solo muestro las canciones lanzados en el año actual
@@ -158,7 +161,7 @@ export const TrackSearchScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View>
+      <View style={{ flex: 1 }}>
         <View>
           <Text style={styles.title}>Mis SOTYs del {actualYear}</Text>
         </View>
@@ -218,7 +221,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.black,
     alignItems: "center",
-    marginBottom: "11%",
   },
 
   title: {

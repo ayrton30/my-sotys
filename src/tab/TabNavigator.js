@@ -6,10 +6,13 @@ import { TrackListScreen } from "../screens/TrackListScreen";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import colors from "../const/colors";
 import { StyleSheet } from "react-native";
+import { useSelector } from "react-redux";
 
 const Tab = createBottomTabNavigator();
 
 export const TabNavigator = () => {
+  const sotyTracks = useSelector((state) => state.sotyTracks);
+
   return (
     <Tab.Navigator
       initialRouteName="Buscar"
@@ -36,6 +39,8 @@ export const TabNavigator = () => {
         name="Favoritos"
         component={TrackListScreen}
         options={{
+          tabBarBadge: sotyTracks.length,
+          tabBarBadgeStyle: { fontFamily: "ReadexProBold" },
           tabBarIcon: ({ focused }) => (
             <Ionicons
               name="ios-star"
@@ -52,8 +57,6 @@ export const TabNavigator = () => {
 const styles = StyleSheet.create({
   tabContainer: {
     backgroundColor: colors.black,
-    position: "absolute",
-    height: "9%",
   },
 
   tabText: {

@@ -25,7 +25,7 @@ export const TrackListScreen = () => {
   const sotyTracks = useSelector((state) => state.sotyTracks);
   const dispatch = useDispatch();
 
-  const handlerSaveImage = () => {
+  const handlerShare = () => {
     let m = "Mi lista de SOTYs\n";
     sotyTracks.forEach((element) => {
       m =
@@ -50,9 +50,9 @@ export const TrackListScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View>
+      <View style={{ flex: 1 }}>
         <Text style={styles.title}>Mis SOTYs</Text>
-        <TouchableOpacity style={styles.button} onPress={handlerSaveImage}>
+        <TouchableOpacity style={styles.button} onPress={handlerShare}>
           <Ionicons name="ios-share" size={24} color={colors.black} />
           <Text style={styles.textButton}>Compartir mi lista</Text>
         </TouchableOpacity>
@@ -83,7 +83,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.black,
     alignItems: "center",
-    marginBottom: "11%",
   },
 
   title: {
